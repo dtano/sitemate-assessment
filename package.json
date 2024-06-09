@@ -8,7 +8,7 @@
     "start-dev": "nodemon server",
     "server": "node server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"nodemon server\" \"npm run client\""
   },
   "author": "Denzel Joaquin Tano",
   "license": "ISC",

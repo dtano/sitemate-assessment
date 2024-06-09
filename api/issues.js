@@ -2,7 +2,7 @@ const express = require("express");
 const { findObjectById, addObjectToDB, deleteObjById, updateObjById } = require("../utils/database");
 const router = express.Router();
 
-const ISSUES_DB_FILE_PATH = "../data/issues.json";
+const ISSUES_DB_FILE_PATH = "../Sitemate/data/issues.json";
 
 router.get("/:id", async (req, res) => {
     // GET ISSUE BY ID
@@ -20,6 +20,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     // CREATE NEW ISSUE
+    console.log(req.body);
     const newIssue = {
         title: req.body.title,
         description: req.body.description

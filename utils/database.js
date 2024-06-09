@@ -3,17 +3,17 @@ const crypto = require("crypto");
 
 const readJsonFile = async (filePath) => {
     try {
-        const data = fs.readFile(filePath, 'utf8');
+        const data = fs.readFileSync(filePath, 'utf8');
         return JSON.parse(data);
     } catch (err) {
         throw new Error(`Error reading or parsing JSON file: ${err}`);
     }
 }
 
-const writeJsonFile = async (filePath) => {
+const writeJsonFile = async (filePath, data) => {
     try{
         const json = JSON.stringify(data, null, 2);
-        fs.writeFile(filePath, json, 'utf8');
+        fs.writeFileSync(filePath, json , 'utf8');
     }catch(err) {
         throw new Error(`Error writing to JSON file: ${err}`);
     }
@@ -39,16 +39,16 @@ const addObjectToDB = async (filePath, newObject) => {
         const id = generateId();
         newObject.id = id;
 
-        const data = await readJSONFile(filePath);
-        data.push(newObj);
-        await writeJSONFile(filePath, data);
+        const data = await readJsonFile(filePath);
+        data.push(newObject);
+        await writeJsonFile(filePath, data);
         console.log('Object added successfully.');
     }catch(err){
-        console.error(error);
+        console.error(err);
     }
 }
 
-const deleteObjById = async (filePath, newObject) => {
+const deleteObjById = async (filePath, id) => {
     try{
         let data = await readJsonFile(filePath);
         data = data.filter(item => item.id !== id);
@@ -62,15 +62,15 @@ const deleteObjById = async (filePath, newObject) => {
 const updateObjById = async (filePath, newObject) => {
     try{
         let data = await readJsonFile(filePath);
-        const index = data.findIndex(item => item.id === id);
+        const index = data.findIndex(item => item.id === newObject.id);
 
         if (index !== -1) {
-            data[index] = { ...data[index], ...updatedObj };
+            data[index] = { ...data[index], ...newObject };
             await writeJsonFile(filePath, data);
-            console.log(`Object with id ${id} updated successfully.`);
+            console.log(`Object with id ${newObject.id} updated successfully.`);
             return newObject;
         }else{
-            throw new Error(`Object with id ${id} does not exist`);
+            throw new Error(`Object with id ${newObject.id} does not exist`);
         }
     }catch(err){
         console.error(err);

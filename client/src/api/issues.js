@@ -9,6 +9,7 @@ export const getIssue = async (issueId) => {
 }
 
 export const createIssue = async (body) => {
+    console.log("CREATE ISSUE BODY", body);
     const response = await axios.post(ISSUES_URL, body);
     return response;
 }
